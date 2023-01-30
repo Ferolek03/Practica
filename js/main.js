@@ -12,14 +12,17 @@ let app = new Vue({
         onSale: true,
         link: 'https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=socks',
         inventory: 100,
+        
         variants: [
             {
                 variantId: 2234,
-                variantColor: 'green'
+                variantColor: 'green',
+                sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL']
             },
             {
                 variantId: 2235,
-                variantColor: 'blue'
+                variantColor: 'blue',
+                sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL']
             }
         ]
     }

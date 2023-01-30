@@ -20,13 +20,13 @@ let app = new Vue({
             {
                 variantId: 2234,
                 variantColor: 'green',
-                sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
+                
                 variantImage: "./assets/vmSocks-green-onWhite.jpg",
             },
             {
                 variantId: 2235,
                 variantColor: 'blue',
-                sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
+                
                 variantImage: "./assets/vmSocks-blue-onWhite.jpg",
             }
         ]

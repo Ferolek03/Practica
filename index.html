@@ -1,74 +1,88 @@
 <!doctype html>
 <html lang="ru">
+
 <head>
    <meta charset="UTF-8">
    <meta name="viewport"
-         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
    <meta http-equiv="X-UA-Compatible" content="ie=edge">
    <script defer src="./js/vue.js"></script>
    <script defer src="./js/main.js"></script>
    <link rel="stylesheet" href="css/style.css">
    <title>Product App</title>
 </head>
+
 <body>
 
-<div id="app">
+   <div id="app">
 
-   <div class="product">
+      <div class="product">
 
-      <div class="product-image">
-         <img v-bind:src="image" v-bind:alt="altText" />
-      </div>
+         <div class="product-image">
+            <img v-bind:src="image" v-bind:alt="altText" />
+         </div>
 
-      <div class="product-info">
-         <h1>{{ product }}</h1>
-         <p>{{ description }}</p>
-         <a :href="link" target="_blank"> More products like this</a>
+         <div class="product-info">
+            <h1>{{ title }}</h1>
 
-         <p v-if="inStock">In Stock</p>
-         <p v-else :class="{ outOfStock: !inStock }">Out of Stock</p>
-         <span v-if="onSale">On Sale!</span>
+            <p>{{ description }}</p>
 
-         <ul>
-            <li v-for="detail in details">{{ detail }}</li>
-         </ul>
+            <a :href="link" target="_blank"> More products like this</a>
 
-         <div class="color-box"
-         v-for="variant in variants"
-         :key="variant.variantId"
-         :style="{ backgroundColor:variant.variantColor }">
-            
-            <p>{{ variant. sizes }}</p>
-            
-            <p @mouseover="updateProduct(variant.variantImage)">
-               {{ variant.variantColor }}
-           </p>
+            <p v-if="inStock">In Stock</p>
+
+            <p v-else :class="{ outOfStock: !inStock }">Out of Stock</p>
+            <p>{{ sale }}</p>
+
+            <span v-if="onSale">On Sale!</span>
+
+            <ul>
+               <li v-for="detail in details">{{ detail }}</li>
+            </ul>
+
+            <div class="color-box" 
+                  v-for="(variant, index) in variants" 
+                  :key="variant.variantId"
+                  :style="{ backgroundColor:variant.variantColor }"
+                  @mouseover="updateProduct(index)"
+                  >
+                  
+               <!-- <p>{{ variant. sizes }}</p> -->
+
+               <!-- <p @mouseover="updateProduct(index)">
+                  {{ variant.variantColor }}
+               </p> -->
+
+            </div>
+
+            <button v-on:click="addToCart" 
+            :disabled="!inStock"
+            :class="{ disabledButton: !inStock }"
+            >
+            Add to cart
+            </button>
+
+            <button v-on:click="cart -= 1">Dell to cart</button>
+
+            <div class="cart">
+               <p>Cart({{ cart }})</p>
+            </div>
+
+
+
+
+<!-- 
+            <div :class="classObject"></div>
+            <div :class="[activeClass, errorClass]"></div> -->
+
+
 
          </div>
 
-         <div class="cart">
-            <p>Cart({{ cart }})</p>
-         </div>
 
-        
-         <button v-on:click="cart -= 1">Dell to cart</button>
-         
-         
-         <button
-         v-on:click="addToCart"
-         :disabled="!inStock"
-         :class="{ disabledButton: !inStock }">
-     Add to cart
-  </button>
-
-  <div :class="classObject"></div>
-  <div :class="[activeClass, errorClass]"></div>
 
       </div>
-
-
-
    </div>
-</div>
 </body>
+
 </html>

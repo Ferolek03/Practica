@@ -4,32 +4,30 @@ let app = new Vue({
     el: '#app',
     data: {
         product: "Socks",
-        description:  "A pair of warm, fuzzy socks.",
-        image: "./assets/vmSocks-blue-onWhite.jpg",
+        brand: "Vue Mastery",
+        description: "A pair of warm, fuzzy socks.",
         altText: "A pair of socks",
-        inStock: false,
         details: ['80% cotton', '20% polyester', 'Gender-neutral'],
-        onSale: true,
         link: 'https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=socks',
         inventory: 100,
-        cart: 0,
-       
-         
-        
+
+        selectedVariant: 0,
+
+
         variants: [
             {
                 variantId: 2234,
                 variantColor: 'green',
-                
                 variantImage: "./assets/vmSocks-green-onWhite.jpg",
+                variantQuantity: 10,
             },
             {
                 variantId: 2235,
                 variantColor: 'blue',
-                
+                variantQuantity: 0,
                 variantImage: "./assets/vmSocks-blue-onWhite.jpg",
             }
-        ]
+        ], cart: 0, onSale: true,
     },
 
     methods: {
@@ -39,13 +37,34 @@ let app = new Vue({
         delToCart() {
             this.cart -= 1
         },
-        updateProduct(variantImage) {
-            this.image = variantImage
-         }
-         
-     }
-     
+        updateProduct(index) {
+            this.selectedVariant = index;
+            console.log(index);
+        }
+
+    },
+
+    computed: {
+        title() {
+            return this.brand + ' ' + this.product;
+        },
+
+        image() {
+            return this.variants[this.selectedVariant].variantImage;
+        },
+        inStock() {
+            return this.variants[this.selectedVariant].variantQuantity
+        },
+        sale() {
+            if (this.onSale) {
+                return this.brand + ' ' + this.product + ' are on sale!'
+            }
+            return this.brand + ' ' + this.product + ' are not on sale'
+        }
+
+
+    }
+
 
 
 })
- 

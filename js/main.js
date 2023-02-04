@@ -1,4 +1,6 @@
 //Create a new component for product-details with a prop of details. 
+let eventBus = new Vue();
+
 
 Vue.component('product-details', {
   props: {
@@ -12,7 +14,7 @@ Vue.component('product-details', {
       <li v-for="detail in details">{{ detail }}</li>
     </ul>
   `
-})
+});
 
 
 
@@ -41,15 +43,15 @@ Vue.component('product', {
       <p>{{sale}}</p>
       <div v-for="size in sizes">{{size}}</div>      
       <info-tabs :shipping="shipping" :details="details"></info-tabs> 
-      <div class="color-box" v-for="(variant, index) in variants" :key="variant.variantId" :style="{ backgroundColor:variant.variantColor }" @mouseover="updateProduct(index)">
+      <div class="color-box" v-for="(variant, index) in variants" 
+      :key="variant.variantId" 
+      :style="{ backgroundColor:variant.variantColor }" @mouseover="updateProduct(index)">
       </div>
-      <div id ="mes">
+
       <button 
       v-on:click="addToCart":disabled="!inStock"
         :class="{ disabledButton: !inStock }"> Add to cart </button><br>
-      <button 
-      v-on:click="removeToCart">Remove from cart</button>
-      </div>
+        <button v-on:click="removeToCart">Remove from cart</button>
   </div>
       <product-tabs :reviews="reviews"></product-tabs>
   </div>
@@ -91,7 +93,6 @@ Vue.component('product', {
         "add-to-cart",
         this.variants[this.selectedVariant].variantId
       );
-      eventBus.$emit("on-message", "Товар добавлен в корзину");
     },
     updateProduct(index) {
       this.selectedVariant = index;
@@ -101,7 +102,6 @@ Vue.component('product', {
         "remove-to-cart",
         this.variants[this.selectedVariant].variantId
       );
-      eventBus.$emit("on-message", "Корзина очищена");
     },
   },
     computed: {
@@ -133,7 +133,7 @@ Vue.component('product', {
         });
       },
 
-    })
+    },
     Vue.component("product-review", {
       template: `
           <form class="review-form" @submit.prevent="onSubmit">
@@ -147,7 +147,7 @@ Vue.component('product', {
                </p>
                <p>
                  <label for="rating">Rating:</label>
-                 <select  id="rating" v-model.number="rating">
+                 <select id="rating" v-model.number="rating">
                    <option>5</option>
                    <option>4</option>
                    <option>3</option>
@@ -246,8 +246,8 @@ Vue.component('product', {
           selectedTab: "Reviews",
         };
       },
-    });
-  
+    })
+  );
   Vue.component("info-tabs", {
     props: {
       shipping: {
@@ -286,8 +286,8 @@ Vue.component('product', {
     },
   });
 
-var app = new Vue({
-    el: '#app',
+  let app = new Vue({
+    el: "#app",
     data: {
       premium: true,
       cart: [],
@@ -296,6 +296,12 @@ var app = new Vue({
       updateCart(id) {
         this.cart.push(id);
       },
-   }
-   
-})
+      removeCart(id) {
+        for (let i = this.cart.length - 1; i >= 0; i--) {
+          if (this.cart[i] === id) {
+            this.cart.splice(i, 1);
+          }
+        }
+      },
+    },
+  });

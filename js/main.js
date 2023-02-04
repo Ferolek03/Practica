@@ -35,7 +35,8 @@ Vue.component('product', {
           <p v-if="inStock">In Stock</p>
           <p v-else>Out of Stock</p>
           <p>Shipping: {{ shipping }}</p>
-
+          <div v-for="size in sizes">{{size}}</div>      
+          <info-tabs :shipping="shipping" :details="details"></info-tabs> 
           <product-details :details="details"></product-details>
 
           <div class="color-box"
@@ -46,6 +47,8 @@ Vue.component('product', {
                >
           </div> 
 
+          <p>Cart({{ cart.length }})</p>
+
           <button v-on:click="addToCart" 
             :disabled="!inStock"
             :class="{ disabledButton: !inStock }"
@@ -53,7 +56,9 @@ Vue.component('product', {
           Add to cart
           </button>
 
-      
+          <button 
+            v-on:click="removeToCart">Remove from cart
+          </button>
 
           <div class="cart">
             <p>Cart({{ cart }})</p>
@@ -69,8 +74,13 @@ Vue.component('product', {
     return {
         product: 'Socks',
         brand: 'Vue Mastery',
+        description: "A pair of warm, fuzzy socks",
         selectedVariant: 0,
+        link: "https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=socks",
+        altText: "A pair of socks",
+        onSale: true,
         details: ['80% cotton', '20% polyester', 'Gender-neutral'],
+        reviews: [],
         variants: [
           {
             variantId: 2234,
@@ -85,15 +95,18 @@ Vue.component('product', {
             variantQuantity: 0     
           }
         ],
+        sizes: ["S", "M", "L", "XL", "XXL", "XXXL"],
         cart: 0
-    }
+    };
   },
     methods: {
       addToCart: function() {
-          this.cart += 1
+        this.$emit("add-to-cart",
+        this.variants[this.selectedVariant].variantId);
       },
       updateProduct: function(index) {  
-          this.selectedVariant = index
+          this.selectedVariant = index; 
+          console.log(index);
       }
     },
     computed: {
@@ -118,6 +131,13 @@ Vue.component('product', {
 var app = new Vue({
     el: '#app',
     data: {
-      premium: true
-    }
+      premium: true,
+      cart: [],
+    },
+    methods: {
+      updateCart(id) {
+        this.cart.push(id);
+      },
+   }
+   
 })

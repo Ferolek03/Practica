@@ -53,7 +53,6 @@ Vue.component('product', {
         :class="{ disabledButton: !inStock }"> Add to cart </button><br>
         <button v-on:click="removeToCart">Remove from cart</button>
   </div>
-  
       <product-tabs :reviews="reviews" :shipping="shipping" :details="details"></product-tabs>
   </div>
   
@@ -186,7 +185,9 @@ Vue.component('product', {
       },
       methods: {
         onSubmit() {
-          if (this.name && this.review && this.rating) {
+          if (this.name && this.review && this.rating) 
+            
+          {
             let productReview = {
               name: this.name,
               review: this.review,

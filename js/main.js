@@ -139,16 +139,23 @@ Vue.component('product', {
       template: `
           <form class="review-form" @submit.prevent="onSubmit">
                <p>
-                 <label for="name">Name:</label>
-                 <input  id="name" v-model="name" placeholder="name">
+               <label for="name">Name:</label>
+               <input required id="name" v-model="name" placeholder="name">
+               <input @click="hideReview" type="submit" value="Confirm name"> 
+               <p v-if="Visibility" class="butrad">«Would you recommend this product?».</p>
+               <label style="display: none" v-show="Visibility" for="radiobuttonfirst">yes</label>
+               <input style="display: none" v-show="Visibility" type="radio" id="radiobuttonfirst" name="223" @click="rating=5">
+               <label style="display: none" v-show="Visibility" for="radiobuttontwo">no</label>
+               <input style="display: none" v-show="Visibility" type="radio" id="radiobuttontwo" name="223" @click="rating=3">
                </p>
                <p>
-                 <label for="review">Review:</label>
-                 <textarea  id="review" v-model="review"></textarea>
+               <label style="display: none" v-show="Visibility" for="review">Review:</label>
+               <textarea required style="display: none" v-show="Visibility" id="review" v-model="review"></textarea>
                </p>
+
                <p>
-                 <label for="rating">Rating:</label>
-                 <select id="rating" v-model.number="rating">
+               <label style="display: none" v-show="Visibility" for="rating">Rating:</label>
+               <select style="display: none" v-show="Visibility" id="rating" v-model.number="rating">
                    <option>5</option>
                    <option>4</option>
                    <option>3</option>
@@ -156,16 +163,11 @@ Vue.component('product', {
                    <option>1</option>
                  </select>
                </p>
-                  <p>Would you recommend this product?</p>
-                      <div>
-                          <label for="question">yes</label>
-                          <input type="radio" value="yes" v-model="question">
-                          <label for="question">no</label>
-                          <input type="radio" value="no" v-model="question">
-                      </div>
+
                <p>
                  <input type="submit" value="Submit"> 
                </p>
+
                   <p v-if="errors.length">
                        <b>Please correct the following error(s):</b>
                        <ul>
@@ -176,6 +178,7 @@ Vue.component('product', {
    `,
       data() {
         return {
+          Visibility: false,
           name: null,
           review: null,
           rating: null,
@@ -184,6 +187,8 @@ Vue.component('product', {
         };
       },
       methods: {
+        hideReview() {
+          this.Visibility = true;},
         onSubmit() {
           if (this.name && this.review && this.rating) 
             

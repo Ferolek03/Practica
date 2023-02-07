@@ -143,21 +143,34 @@ Vue.component('product', {
                <input required id="name" v-model="name" placeholder="name">
                <input @click="hideReview" type="submit" value="Confirm name"> 
                <p v-if="Visibility" class="butrad">«Would you recommend this product?».</p>
-               <label style="display: none" v-show="Visibility" for="radiobuttonfirst">yes</label>
-               <input style="display: none" v-show="Visibility" type="radio" id="radiobuttonfirst" name="223" @click="rating=5">
-               <label style="display: none" v-show="Visibility" for="radiobuttontwo">no</label>
-               <input style="display: none" v-show="Visibility" type="radio" id="radiobuttontwo" name="223" @click="rating=3">
-               </p>
+                
+              <p>
+               <label style="display: none" v-show="Visibility" for="radiobuttonfirst" id="rating">yes</label>
+               <input style="display: none" v-show="Visibility" type="radio" id="radiobuttonfirst" name="223" value="yes" v-model="question"> 
+              </p>
+
+              <p>
+               <label style="display: none" v-show="Visibility" for="radiobuttontwo" id="rating">no</label>
+               <input style="display: none" v-show="Visibility" type="radio" id="radiobuttontwo" name="223" value="no" v-model="question">
+              </p>
+
                <p>
                <label style="display: none" v-show="Visibility" for="review">Review:</label>
                <textarea required style="display: none" v-show="Visibility" id="review" v-model="review"></textarea>
                </p>
 
-               <p>
+               <p v-if="question == 'yes'">
                <label style="display: none" v-show="Visibility" for="rating">Rating:</label>
                <select style="display: none" v-show="Visibility" id="rating" v-model.number="rating">
                    <option>5</option>
                    <option>4</option>
+                   <option>3</option>
+                 </select>
+               </p>
+
+               <p v-if="question == 'no'">
+               <label style="display: none" v-show="Visibility" for="rating">Rating:</label>
+               <select style="display: none" v-show="Visibility" id="rating" v-model.number="rating">
                    <option>3</option>
                    <option>2</option>
                    <option>1</option>
